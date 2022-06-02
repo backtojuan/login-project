@@ -68,13 +68,15 @@ public class UserViewController {
     			
     			String passBD = rs.getString("userpassword");
     			if(PasswordGenerator.validatePassword(textNewPassword.getText(), passBD) || textNewPassword.getText().equals("")) {
-    				alert();
+    				alert1();
     				textNewPassword.clear();
     			} else {
     				String passCifrada = PasswordGenerator.generateStrongPasswordHash(textNewPassword.getText());
     				String setPass = "Update users set userpassword = " + "'"+ passCifrada +"'" + " where username= '" + user + "'";
     	    		Statement st =con.createStatement();
+    	    		alert2();
     	            st.execute(setPass);
+    	            
         		}
     		}
 			
@@ -102,12 +104,24 @@ public class UserViewController {
     /**
 	 * This method creates and Alert that is triggered if the user tries to change their password using the same old password
 	 */
-    private void alert() {
+    private void alert1() {
     	Alert info = new Alert(AlertType.INFORMATION);
         info.setTitle("Information");
         info.setHeaderText(null);
         info.initStyle(StageStyle.UTILITY);
-        info.setContentText("No se puede usar la misma contraseña");
+        info.setContentText("You cannot use your old password");
+        info.show();
+    }
+    
+    /**
+	 * This method creates and Alert that is triggered when the password is succesfully changed
+	 */
+    private void alert2() {
+    	Alert info = new Alert(AlertType.CONFIRMATION);
+        info.setTitle("Information");
+        info.setHeaderText(null);
+        info.initStyle(StageStyle.UTILITY);
+        info.setContentText("Your password was succesfully changed");
         info.show();
     }
     

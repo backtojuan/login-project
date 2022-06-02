@@ -58,8 +58,9 @@ public class AdminViewController {
 			Statement st =con.createStatement();
 			st.execute(delete);
 			updateCombo();
+			alert3();
 		} catch (NullPointerException npe){
-			alert();
+			alert1();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -78,8 +79,9 @@ public class AdminViewController {
 			String setPass = "Update users set userpassword = " + "''" + " where username= '" + comboBoxUsers.getValue() + "'";
 			Statement st =con.createStatement();
 			st.execute(setPass);
+			alert2();
 		} catch (NullPointerException npe){
-			alert();
+			alert1();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,14 +91,39 @@ public class AdminViewController {
 	/**
 	 * This method creates and Alert that is triggered if the admin user tries to perform a task without previously selecting a user
 	 */
-	private void alert() {
-		Alert info = new Alert(AlertType.INFORMATION);
+	private void alert1() {
+		Alert info = new Alert(AlertType.ERROR);
 		info.setTitle("Information");
 		info.setHeaderText(null);
 		info.initStyle(StageStyle.UTILITY);
-		info.setContentText("No ha escogido un usuario");
+		info.setContentText("You havent selected an user to delete");
 		info.show();
 	}
+	
+	/**
+	 * This method creates and Alert that is triggered when the admin sets a user's password to blank
+	 */
+	private void alert2() {
+		Alert info = new Alert(AlertType.CONFIRMATION);
+		info.setTitle("Information");
+		info.setHeaderText(null);
+		info.initStyle(StageStyle.UTILITY);
+		info.setContentText("The user password now its blank");
+		info.show();
+	}
+	
+	/**
+	 * This method creates and Alert that is triggered when the admin deletes a user from the system
+	 */
+	private void alert3() {
+		Alert info = new Alert(AlertType.CONFIRMATION);
+		info.setTitle("Information");
+		info.setHeaderText(null);
+		info.initStyle(StageStyle.UTILITY);
+		info.setContentText("The user was deleted");
+		info.show();
+	}
+
 
 	/**
      * This method connects the application to the data base to get the current users that are admins
@@ -123,7 +150,7 @@ public class AdminViewController {
 	 * @throws SQLException
 	 */
 	private void updateCombo() {
-		String consulta = "SELECT username FROM users WHERE privilege = 'true'";
+		String consulta = "SELECT username FROM users WHERE userprivilege = 'false'";
 		comboBoxUsers.getItems().clear();
 		try {
 			ps = con.prepareStatement(consulta);

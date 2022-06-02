@@ -25,10 +25,7 @@ public class Main extends Application{
 	 * @param args
 	 */
 	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		System.out.println(PasswordGenerator.generateStrongPasswordHash("123456"));
-        System.out.println(PasswordGenerator.generateStrongPasswordHash("654321"));
-        System.out.println(PasswordGenerator.generateStrongPasswordHash("123123"));
-        System.out.println(PasswordGenerator.generateStrongPasswordHash("456456"));
+		System.out.println(PasswordGenerator.generateStrongPasswordHash("12345"));
 		
 		launch(args);
 	}
