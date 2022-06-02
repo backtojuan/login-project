@@ -133,7 +133,7 @@ public class LoginViewController {
 	 */
 	private void nextToStageAdmin() {
 		try {
-			FXMLLoader loader= new FXMLLoader(getClass().getResource("admiDashBoard.fxml"));
+			FXMLLoader loader= new FXMLLoader(getClass().getResource("AdminViewController.fxml"));
 			Parent root=loader.load();
 			Scene scene = new Scene(root);
 			Main.stage.setScene(scene);
@@ -149,7 +149,7 @@ public class LoginViewController {
 	 */
 	private void nextToStageUser(String user) {
 		try {
-			FXMLLoader loader= new FXMLLoader(getClass().getResource("usersDashBoard.fxml"));
+			FXMLLoader loader= new FXMLLoader(getClass().getResource("UserViewController.fxml"));
 			Parent root=loader.load();
 			UserViewController scc= (UserViewController) loader.getController();         
 			scc.recibirUser(user);
