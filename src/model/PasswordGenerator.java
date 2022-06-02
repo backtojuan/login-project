@@ -8,13 +8,20 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-
+/**
+ * Java class that handles all the necessary methods to implement PBKDF2 algorithm.
+ * taken from https://trellat.es/encriptacion-de-contrasenas-con-pbkdf2-en-java/
+ *
+ */
 public class PasswordGenerator {
-
-    public PasswordGenerator() {
-
-    }
-
+	
+	/**
+	 * This method encrypts a password provided by the user.
+	 * @param password Password to encrypt.
+	 * @return The encrypted password.
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
+	 */
     public static String generateStrongPasswordHash(String password)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         int iterations = 2000;
@@ -28,13 +35,23 @@ public class PasswordGenerator {
         return iterations + ":" + toHex(salt) + ":" + toHex(hash);
     }
 
+    /**
+     * This method generates the salt that it is mean to be applied on the password. 
+     * @return The salt for the password.
+     * @throws NoSuchAlgorithmException
+     */
     private static byte[] getSalt() throws NoSuchAlgorithmException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
         sr.nextBytes(salt);
         return salt;
     }
-
+    
+    /**
+     * This method turns a byte array into a hexadecimal string.
+     * @param array byte array to be converted.
+     * @return The array turned into a hexadecimal string.
+     */
     private static String toHex(byte[] array) {
         BigInteger bi = new BigInteger(1, array);
         String hex = bi.toString(16);
@@ -45,7 +62,16 @@ public class PasswordGenerator {
             return hex;
         }
     }
-
+    
+    /**
+     * This method verifies if the given password, after the encryption, is equal 
+     * to the one stored in the database.
+     * @param originalPassword Password provided by the user.
+     * @param storedPassword Password stored in the database.
+     * @return true if the password match, false if not.
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     public static boolean validatePassword(String originalPassword, String storedPassword)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         try {
@@ -75,7 +101,12 @@ public class PasswordGenerator {
         	return false;
         }
     }
-
+    
+    /**
+     * This method turns a hexadecimal string into a decimal array.
+     * @param hex the hexadecimal string to be converted.
+     * @return The byte array.
+     */
     private static byte[] fromHex(String hex) {
         byte[] bytes = new byte[hex.length() / 2];
         for (int i = 0; i < bytes.length; i++) {
